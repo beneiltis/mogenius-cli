@@ -1,0 +1,27 @@
+version: "3"
+
+tasks:
+  build:
+    desc: Build the app
+    cmds:
+      - task: generate
+      - GOFLAGS=-mod=mod go build -v -o bin/mo-cli main.go
+      # linux
+      - GOOS=linux GOARCH=386 go build -v -o bin/mo-cli-linux-386 main.go
+      - GOOS=linux GOARCH=amd64 go build -v -o bin/mo-cli-linux-64 main.go
+      # windows
+      - GOOS=windows GOARCH=386 go build -v -o bin/mo-cli-win-386 main.go
+      - GOOS=windows GOARCH=amd64 go build -v -o bin/mo-cli-win-64 main.go
+      # mac
+      - GOOS=darwin GOARCH=amd64 go build -v -o bin/mo-cli-darwin-64 main.go
+      - GOOS=darwin GOARCH=arm64 go build -v -o bin/mo-cli-darwin-arm64 main.go
+
+  generate:
+    desc: generate version number
+    cmds:
+      - GOFLAGS=-mod=mod go generate
+
+  run:
+    desc: Run the app
+    cmds:
+      - GOFLAGS=-mod=mod go run main.go
